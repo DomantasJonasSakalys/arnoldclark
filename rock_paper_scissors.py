@@ -10,38 +10,39 @@ rules = {
 }
 
 #Making selections from the keys
-selections = ''
-for rule in rules.keys():
-	selections += rule + ', '
-selections = selections[0:-2]
+selections =  ', '.join(list(rules.keys()))
 
 def run():
 	#Selection statement
 	print('\nTo play enter one of the selections:\n' + selections)
 
-	#Opponent selections
+	#Player selection
 	player = input('You choose: ').capitalize()
-	ai = random.choice(list(rules.items()))[0]
 	
 	#Check for valid input
 	while player not in rules.keys():
 		print('\nInvalid input, try again\n')
 		player = input('You choose: ').capitalize()
+	
+	#AI selection
+	ai = random.choice(list(rules.items()))[0]
 	print('AI selected: ' + str(ai))
 
 	#Check and tell who won
 	if ai in rules[player]:
 		print('You Won, ' + player + ' beats ' + ai)
+		return 1
 	elif player in rules[ai]:
 		print('You Lost, ' + ai + ' beats ' + player)
+		return 2
 	else:
-		print('Tie, ' + player + " doesn't do anything to " + ai)
-	
-	#Play again?
-	if input('Play again?(y?)').capitalize() == 'Y':
-		run()
-	exit()
+		print("It's a Tie")
+		return 3
 
 #Start the game
 print('Welcome to the '+ selections + ' game!')
 run()
+#Play again?
+while input('Play again? ').capitalize()[0:1] == 'Y':
+	run()
+exit()
